@@ -69,12 +69,12 @@ public class Karyawan {
         this.pulang = pulang;
     }
 
-    public void setLama(Waktu lama) {
-        this.lama = lama;
+    public void setLama() {
+        
     }
 
-    public void setUpah(double upah) {
-        this.upah = upah;
+    public void setUpah() {
+        this.upah=(double)this.lama.getJam()*50000;
     }
 
     public void insertData() throws SQLException {

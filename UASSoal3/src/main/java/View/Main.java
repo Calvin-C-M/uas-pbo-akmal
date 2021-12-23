@@ -60,6 +60,12 @@ public class Main extends javax.swing.JFrame {
         tableKaryawan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistem Perusahaan");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         header.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -91,6 +97,11 @@ public class Main extends javax.swing.JFrame {
 
         updateButton.setText("Update");
         updateButton.setEnabled(false);
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         saveButton.setText("Simpan");
         saveButton.setEnabled(false);
@@ -199,6 +210,14 @@ public class Main extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tableKaryawan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tableKaryawanFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tableKaryawanFocusLost(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableKaryawan);
         if (tableKaryawan.getColumnModel().getColumnCount() > 0) {
             tableKaryawan.getColumnModel().getColumn(3).setResizable(false);
@@ -287,6 +306,9 @@ public class Main extends javax.swing.JFrame {
             if(inputWaktuIsInvalid(this.karyawan.getDatang(), this.karyawan.getPulang())) {
                 throw new InvalidTimeException();
             }
+
+            karyawan.setLama();
+            karyawan.setUpah();
         } catch(InvalidTimeException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
         } catch(Exception ex) {
@@ -299,6 +321,46 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
         }    
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void tableKaryawanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tableKaryawanFocusGained
+        deleteButton.setEnabled(true);
+        updateButton.setEnabled(true);
+    }//GEN-LAST:event_tableKaryawanFocusGained
+
+    private void tableKaryawanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tableKaryawanFocusLost
+        deleteButton.setEnabled(false);
+        updateButton.setEnabled(false);
+    }//GEN-LAST:event_tableKaryawanFocusLost
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        inputKodeKaryawan.setEnabled(false);
+        this.karyawan.setKode(String.valueOf(tableKaryawan.getValueAt(tableKaryawan.getSelectedRow(), 0)));
+        this.karyawan.setNama(String.valueOf(tableKaryawan.getValueAt(tableKaryawan.getSelectedRow(), 1)));
+        String[] masuk=String.valueOf(tableKaryawan.getValueAt(tableKaryawan.getSelectedRow(), 2)).split("-");
+        String[] keluar=String.valueOf(tableKaryawan.getValueAt(tableKaryawan.getSelectedRow(), 3)).split("-");
+        String[] lama=String.valueOf(tableKaryawan.getValueAt(tableKaryawan.getSelectedRow(), 4)).split("-");
+        
+        karyawan.getDatang().setJam(Integer.parseInt(masuk[0]));
+        karyawan.getDatang().setMenit(Integer.parseInt(masuk[1]));
+        karyawan.getDatang().setDetik(Integer.parseInt(masuk[2]));
+        karyawan.getPulang().setJam(Integer.parseInt(keluar[0]));
+        karyawan.getPulang().setMenit(Integer.parseInt(keluar[1]));
+        karyawan.getPulang().setDetik(Integer.parseInt(keluar[2]));
+        karyawan.getPulang().setJam(Integer.parseInt(lama[0]));
+        karyawan.getPulang().setMenit(Integer.parseInt(lama[1]));
+        karyawan.getPulang().setDetik(Integer.parseInt(lama[2]));
+
+        inputKodeKaryawan.setText(String.valueOf(this.karyawan.getKode()));
+        inputNamaKaryawan.setText(this.karyawan.getNama());
+
+        tambahButton.setEnabled(false);
+        saveButton.setEnabled(true);
+        deleteButton.setEnabled(true);        
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.queryData();
+    }//GEN-LAST:event_formWindowOpened
 
     public boolean formatWaktuIsInvalid(Waktu waktu) {
         return (
@@ -336,7 +398,7 @@ public class Main extends javax.swing.JFrame {
             ConnectDB connectDB=new ConnectDB();
             ResultSet rs=null;
 
-            String query="SELECT * FROM barang";
+            String query="SELECT * FROM karyawan";
             rs=connectDB.getData(query);
 
             while(rs.next()) {
