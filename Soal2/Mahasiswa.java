@@ -50,4 +50,10 @@ public class Mahasiswa {
         System.out.print("Masukkan Nilai PBO Mahasiswa: ");
         this.nilaiPbo=Float.parseFloat(input.nextLine());
     }
+
+    public void print() {
+        System.out.println("Nama = " + this.nama);
+        System.out.println("NPM = " + this.npm);
+        System.out.println("Nilai PBO = " + this.nilaiPbo);
+    }
 }

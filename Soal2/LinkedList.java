@@ -18,10 +18,22 @@ public class LinkedList {
     }
 
     public void insertFirst() {
+        Node newElement=new Node();
+        newElement.getMahasiswa().input();
         
+        if(this.head==null) {
+            this.head=newElement;
+        } else {
+            newElement.setNext(this.head);
+            this.head=newElement;
+        }
     }
 
     public void print() {
-        
+        Node curr=this.head;
+        while(curr.getNext() != null) {
+            curr.getMahasiswa().print();
+            curr=curr.getNext();
+        }
     }
 }
