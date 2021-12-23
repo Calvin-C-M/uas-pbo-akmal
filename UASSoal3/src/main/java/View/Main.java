@@ -8,6 +8,12 @@
  */
 package View;
 import Classes.*;
+import Database.*;
+import Exception.*;
+
+import java.sql.ResultSet;
+
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,7 +21,7 @@ import Classes.*;
  */
 public class Main extends javax.swing.JFrame {
     Karyawan karyawan;
-    
+
     /**
      * Creates new form Main
      */
@@ -49,7 +55,7 @@ public class Main extends javax.swing.JFrame {
         inputJamDatang = new javax.swing.JTextField();
         inputJamPulang = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableKaryawan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,7 +95,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(optionsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tambahButton)
-                .addGap(89, 89, 89)
+                .addGap(152, 152, 152)
                 .addComponent(updateButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveButton)
@@ -162,28 +168,29 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableKaryawan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Kode Karyawan", "Nama Karyawan", "Jam Datang", "Jam Pulang"
+                "Kode Karyawan", "Nama Karyawan", "Jam Datang", "Jam Pulang", "Lama Kerja", "Upah"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane1.setViewportView(tableKaryawan);
+        if (tableKaryawan.getColumnModel().getColumnCount() > 0) {
+            tableKaryawan.getColumnModel().getColumn(3).setResizable(false);
+            tableKaryawan.getColumnModel().getColumn(4).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,7 +200,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
                     .addComponent(form, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -212,6 +219,32 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void queryData() {
+        int baris=0;
+        try {
+            ConnectDB connectDB=new ConnectDB();
+            ResultSet rs=null;
+
+            String query="SELECT * FROM barang";
+            rs=connectDB.getData(query);
+
+            while(rs.next()) {
+                tableKaryawan.setValueAt(rs.getInt("kode"), baris, 0);
+                tableKaryawan.setValueAt(rs.getString("nama"), baris, 1);
+                tableKaryawan.setValueAt(rs.getDouble("jamDatang"), baris, 2);
+                tableKaryawan.setValueAt(rs.getInt("jamPulang"), baris, 3);
+                tableKaryawan.setValueAt(rs.getInt("lamaKerja"), baris, 4);
+                tableKaryawan.setValueAt(rs.getInt("upah"), baris, 5);
+
+                baris++;
+            }
+            rs.close();
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }
+
 
     /**
      * @param args the command line arguments
@@ -257,13 +290,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField inputKodeKaryawan;
     private javax.swing.JTextField inputNamaKaryawan;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelInputJamDatang;
     private javax.swing.JLabel labelInputJamPulang;
     private javax.swing.JLabel labelInputKodeKaryawan;
     private javax.swing.JLabel labelInputNamaKaryawan;
     private javax.swing.JPanel options;
     private javax.swing.JButton saveButton;
+    private javax.swing.JTable tableKaryawan;
     private javax.swing.JButton tambahButton;
     private javax.swing.JLabel title;
     private javax.swing.JButton updateButton;
