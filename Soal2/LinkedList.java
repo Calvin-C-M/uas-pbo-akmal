@@ -1,3 +1,12 @@
+/*
+ * Nama Project         : LinkedList
+ * Nama                 : Calvin Calfi Montolalu
+ * NPM                  : 140810200053
+ * Kelas                : A
+ * Tanggal Buat         : 23/12/2021
+ */
+
+
 public class LinkedList {
     private Node head;
 

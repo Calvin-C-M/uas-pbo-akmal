@@ -1,3 +1,11 @@
+/*
+ * Nama Project         : Mahasiswa
+ * Nama                 : Calvin Calfi Montolalu
+ * NPM                  : 140810200053
+ * Kelas                : A
+ * Tanggal Buat         : 23/12/2021
+ */
+
 import java.util.Scanner;
 
 public class Mahasiswa {
