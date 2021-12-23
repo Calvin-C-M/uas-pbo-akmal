@@ -43,7 +43,7 @@ public class LinkedList {
         this.head=this.head.getNext();
     }
 
-    public void searchNilaiTertinggi() {
+    public Node searchNilaiTertinggi() {
         Node curr=this.head;
         Node temp=curr;
         float tertinggi=0;
@@ -54,9 +54,12 @@ public class LinkedList {
             curr=curr.getNext();
         }
 
-        System.out.println("===== Nilai Tertinggi =====");
-        temp.getMahasiswa().print();
+        // System.out.println("===== Nilai Tertinggi =====");
+        // temp.getMahasiswa().print();
+        return temp;
     }
+
+    
 
     public void print() {
         Node curr=this.head;
