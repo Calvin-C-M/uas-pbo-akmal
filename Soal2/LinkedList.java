@@ -17,16 +17,45 @@ public class LinkedList {
         this.head = head;
     }
 
-    public void insertFirst() {
+    public Node createElement() {
         Node newElement=new Node();
         newElement.getMahasiswa().input();
-        
+        return newElement;
+    }
+
+    public Node createElement(Mahasiswa mhs) {
+        Node newElement=new Node(mhs);
+        return newElement;
+    }
+
+    public void insertFirst(Node newElement) {
         if(this.head==null) {
             this.head=newElement;
         } else {
             newElement.setNext(this.head);
             this.head=newElement;
         }
+    }
+
+    public void deleteFirst() {
+        Node del=null;
+        del=this.head;
+        this.head=this.head.getNext();
+    }
+
+    public void searchNilaiTertinggi() {
+        Node curr=this.head;
+        Node temp=curr;
+        float tertinggi=0;
+        while(curr.getNext() != null) {
+            if(tertinggi < curr.getNext().getMahasiswa().getNilaiPbo()) {
+                temp=curr;
+            }
+            curr=curr.getNext();
+        }
+
+        System.out.println("===== Nilai Tertinggi =====");
+        temp.getMahasiswa().print();
     }
 
     public void print() {
