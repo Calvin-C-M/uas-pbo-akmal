@@ -42,6 +42,11 @@ public class Main {
 
             case 4:
                 head.print();
+                Node simpulTertinggi=head.searchNilaiTertinggi();
+                float nilaiRataRata = head.getRataRata();
+                System.out.println("===== MAHASISWA NILAI TERTINGGI =====");
+                simpulTertinggi.getMahasiswa().print();
+                System.out.println("Nilai Rata-Rata = " + nilaiRataRata);
                 break;
 
             case 5:
@@ -64,9 +69,16 @@ public class Main {
 
         switch(pil) {
             case 1:
+                Node simpulTertinggi=head.searchNilaiTertinggi();
+                System.out.println("===== MAHASISWA NILAI TERTINGGI =====");
+                simpulTertinggi.getMahasiswa().print();
+                menuSearch(head);
                 break;
 
             case 2:
+                float nilaiRataRata = head.getRataRata();
+                System.out.println("Nilai Rata-Rata = " + nilaiRataRata);
+                menuSearch(head);
                 break;
 
             case 3: 
