@@ -53,9 +53,6 @@ public class LinkedList {
             }
             curr=curr.getNext();
         }
-
-        // System.out.println("===== Nilai Tertinggi =====");
-        // temp.getMahasiswa().print();
         return temp;
     }
 
