@@ -91,10 +91,22 @@ public class Karyawan {
     }
 
     public void updateData() throws SQLException {
+        ConnectDB connectDB=new ConnectDB();
+        String query="UPDATE karyawan set nama='" + this.nama +
+                     "', waktuDatang='" + this.datang + 
+                     "', waktuPulang='" + this.pulang + 
+                     "', lama='" + this.lama +
+                     "', upah='" + this.upah + 
+                     "' " +
+                     "WHERE kode='" + this.kode + 
+                     "';";
 
+        connectDB.query(query);
     }
 
     public void deleteData() throws SQLException {
-
+        ConnectDB connectDB=new ConnectDB();
+        String query="DELETE FROM karyawan WHERE kode='"+this.kode+"';";
+        connectDB.query(query);
     }
 }

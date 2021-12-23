@@ -94,6 +94,11 @@ public class Main extends javax.swing.JFrame {
 
         saveButton.setText("Simpan");
         saveButton.setEnabled(false);
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout optionsLayout = new javax.swing.GroupLayout(options);
         options.setLayout(optionsLayout);
@@ -261,6 +266,40 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tambahButtonActionPerformed
 
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        this.karyawan.setKode(inputKodeKaryawan.getText());
+        this.karyawan.setNama(inputNamaKaryawan.getText());
+        try {
+            String[] masuk=inputJamDatang.getText().split(":");
+            String[] keluar=inputJamPulang.getText().split(":");
+            
+            karyawan.getDatang().setJam(Integer.parseInt(masuk[0]));
+            karyawan.getDatang().setMenit(Integer.parseInt(masuk[1]));
+            karyawan.getDatang().setDetik(Integer.parseInt(masuk[2]));
+            karyawan.getPulang().setJam(Integer.parseInt(keluar[0]));
+            karyawan.getPulang().setMenit(Integer.parseInt(keluar[1]));
+            karyawan.getPulang().setDetik(Integer.parseInt(keluar[2]));
+
+            if(formatWaktuIsInvalid(this.karyawan.getDatang()) || formatWaktuIsInvalid(this.karyawan.getPulang())) {
+                throw new InvalidTimeException();
+            }
+            
+            if(inputWaktuIsInvalid(this.karyawan.getDatang(), this.karyawan.getPulang())) {
+                throw new InvalidTimeException();
+            }
+        } catch(InvalidTimeException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
+        }
+
+        try {
+            this.karyawan.updateData();
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
+        }    
+    }//GEN-LAST:event_saveButtonActionPerformed
+
     public boolean formatWaktuIsInvalid(Waktu waktu) {
         return (
             (waktu.getJam() < 0 || waktu.getJam() > 24)
@@ -303,9 +342,9 @@ public class Main extends javax.swing.JFrame {
             while(rs.next()) {
                 tableKaryawan.setValueAt(rs.getInt("kode"), baris, 0);
                 tableKaryawan.setValueAt(rs.getString("nama"), baris, 1);
-                tableKaryawan.setValueAt(rs.getDouble("jamDatang"), baris, 2);
-                tableKaryawan.setValueAt(rs.getInt("jamPulang"), baris, 3);
-                tableKaryawan.setValueAt(rs.getInt("lamaKerja"), baris, 4);
+                tableKaryawan.setValueAt(rs.getDouble("waktuDatang"), baris, 2);
+                tableKaryawan.setValueAt(rs.getInt("waktuPulang"), baris, 3);
+                tableKaryawan.setValueAt(rs.getInt("lama"), baris, 4);
                 tableKaryawan.setValueAt(rs.getInt("upah"), baris, 5);
 
                 baris++;
