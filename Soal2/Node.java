@@ -7,6 +7,11 @@ public class Node {
         this.next=null;
     }
 
+    Node(Mahasiswa mhs) {
+        this.mahasiswa=mhs;
+        this.next=null;
+    }
+
     public Mahasiswa getMahasiswa() {
         return mahasiswa;
     }

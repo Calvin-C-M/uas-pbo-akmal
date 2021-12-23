@@ -7,7 +7,7 @@ public class Main {
 
     static public void menu(LinkedList head) {
         System.out.println("1. Insert");
-        System.out.prinlln("2. Delete");
+        System.out.println("2. Delete");
         System.out.println("3. Search");
         System.out.println("4. Print All");
         System.out.println("5. Exit");
