@@ -12,6 +12,7 @@ import Database.*;
 import Exception.*;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -26,6 +27,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     public Main() {
+        this.karyawan=new Karyawan();
         initComponents();
     }
 
@@ -78,6 +80,11 @@ public class Main extends javax.swing.JFrame {
         options.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tambahButton.setText("Tambah");
+        tambahButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tambahButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Hapus");
         deleteButton.setEnabled(false);
@@ -180,7 +187,7 @@ public class Main extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -213,12 +220,76 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(form, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
+        this.karyawan.setKode(inputKodeKaryawan.getText());
+        this.karyawan.setNama(inputNamaKaryawan.getText());
+        try {
+            String[] masuk=inputJamDatang.getText().split(":");
+            String[] keluar=inputJamPulang.getText().split(":");
+            
+            karyawan.getDatang().setJam(Integer.parseInt(masuk[0]));
+            karyawan.getDatang().setMenit(Integer.parseInt(masuk[1]));
+            karyawan.getDatang().setDetik(Integer.parseInt(masuk[2]));
+            karyawan.getPulang().setJam(Integer.parseInt(keluar[0]));
+            karyawan.getPulang().setMenit(Integer.parseInt(keluar[1]));
+            karyawan.getPulang().setDetik(Integer.parseInt(keluar[2]));
+
+            if(formatWaktuIsInvalid(this.karyawan.getDatang()) || formatWaktuIsInvalid(this.karyawan.getPulang())) {
+                throw new InvalidTimeException();
+            }
+            
+            if(inputWaktuIsInvalid(this.karyawan.getDatang(), this.karyawan.getPulang())) {
+                throw new InvalidTimeException();
+            }
+        } catch(InvalidTimeException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
+        }
+
+        try {
+            this.karyawan.insertData();
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", 1);
+        }
+    }//GEN-LAST:event_tambahButtonActionPerformed
+
+    public boolean formatWaktuIsInvalid(Waktu waktu) {
+        return (
+            (waktu.getJam() < 0 || waktu.getJam() > 24)
+            &&
+            (waktu.getMenit() < 0 || waktu.getMenit() > 59)
+            &&
+            (waktu.getDetik() < 0 || waktu.getDetik() > 59)
+        );
+    }
+
+    public boolean inputWaktuIsInvalid(Waktu datang, Waktu pulang) {
+        return (
+            (datang.getJam() > pulang.getJam())
+            &&
+            (
+                datang.getJam() < pulang.getJam()
+                &&
+                datang.getMenit() > pulang.getMenit()
+            )
+            &&
+            (
+                datang.getJam() < pulang.getJam()
+                &&
+                datang.getMenit() < pulang.getMenit()
+                &&
+                datang.getDetik() > pulang.getDetik()
+            )
+        );
+    }
 
     public void queryData() {
         int baris=0;

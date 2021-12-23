@@ -10,7 +10,7 @@ package Exception;
  * @author Calvin C M
  */
 public class InvalidTimeException extends Exception {
-    InvalidTimeException() {
+    public InvalidTimeException() {
         super("Anda salah memasukkan format waktu (hh:mm:ss)");
     }
 }

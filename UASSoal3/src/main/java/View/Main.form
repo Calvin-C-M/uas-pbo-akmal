@@ -42,8 +42,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="form" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="245" max="-2" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -207,6 +207,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tambah"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tambahButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteButton">
               <Properties>
@@ -260,7 +263,7 @@
                 <Column editable="true" title="Jam Datang" type="java.lang.String"/>
                 <Column editable="true" title="Jam Pulang" type="java.lang.String"/>
                 <Column editable="true" title="Lama Kerja" type="java.lang.String"/>
-                <Column editable="true" title="Upah" type="java.lang.Float"/>
+                <Column editable="true" title="Upah" type="java.lang.Double"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

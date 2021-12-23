@@ -14,13 +14,13 @@ public class Waktu {
     private int menit;
     private int detik;
     
-    Waktu() {
+    public Waktu() {
         this.jam=0;
         this.menit=0;
         this.detik=0;
     }
 
-    Waktu(int jam, int mnt, int dtk) {
+    public Waktu(int jam, int mnt, int dtk) {
         this.jam=jam;
         this.menit=mnt;
         this.detik=dtk;
