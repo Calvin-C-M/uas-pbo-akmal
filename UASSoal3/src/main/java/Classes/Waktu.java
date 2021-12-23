@@ -49,4 +49,9 @@ public class Waktu {
     public void setDetik(int detik) {
         this.detik = detik;
     }
+
+    @Override
+    public String toString() {
+        return this.jam + ":" + this.menit + ":" + this.detik;
+    }
 }
