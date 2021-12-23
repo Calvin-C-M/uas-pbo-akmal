@@ -59,7 +59,25 @@ public class LinkedList {
         return temp;
     }
 
-    
+    public int getSize() {
+        Node curr=this.head;
+        int size=0;
+        while(curr.getNext() != null) {
+            size++;
+            curr=curr.getNext();
+        }
+        return size;
+    }
+
+    public float getRataRata() {
+        Node curr=this.head;
+        float jumlah=0;
+        while(curr.getNext() != null) {
+            jumlah += curr.getMahasiswa().getNilaiPbo();
+            curr=curr.getNext();
+        }
+        return jumlah/getSize();
+    }
 
     public void print() {
         Node curr=this.head;
